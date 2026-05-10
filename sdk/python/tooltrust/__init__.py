@@ -15,7 +15,7 @@ from .verifier import verify_ddc, VerificationResult
 from .atp import LocalATP, AgentTrustProfile
 from .replay import replay_ddc, ReplayResult
 
-__version__ = "0.1.2"
+__version__ = "0.1.3"
 __all__ = [
     # Decorator
     "tool",

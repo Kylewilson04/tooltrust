@@ -29,7 +29,7 @@ ToolTrust is designed to work with existing agent frameworks and orchestration s
 ## Install
 
 ```bash
-pip install tooltrust-sdk
+pip install tooltrust-sdk>=0.1.2
 ```
 
 ---

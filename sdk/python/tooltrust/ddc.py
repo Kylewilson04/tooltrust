@@ -103,7 +103,7 @@ class LocalDdcChain:
                 "trust_substrate": cert.trust_substrate,
                 "verification_url": cert.verification_url,
                 "schema_version": cert.schema_version,
-                "generated_by": "tooltrust-sdk/0.1.0",
+                "generated_by": "tooltrust-sdk/0.1.3",
             },
             "ddc": {
                 "ddc_id": cert.ddc_id,

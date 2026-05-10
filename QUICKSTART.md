@@ -3,7 +3,7 @@
 ## 1. Install (10 seconds)
 
 ```bash
-pip install tooltrust-sdk
+pip install tooltrust-sdk>=0.1.2
 ```
 
 ## 2. Wrap a Tool (20 seconds)

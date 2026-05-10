@@ -1,6 +1,6 @@
 {
   "name": "@ardyn/tooltrust-sdk",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "Tool Trust SDK — wrap AI tools with cryptographic trust certificates",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

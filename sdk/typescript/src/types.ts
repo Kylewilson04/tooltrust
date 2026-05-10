@@ -1,4 +1,4 @@
-// Tool Trust TypeScript SDK — v0.1.0
+// Tool Trust TypeScript SDK — v0.1.2
 // "Replayable autonomous tool execution."
 
 export enum RiskClass {

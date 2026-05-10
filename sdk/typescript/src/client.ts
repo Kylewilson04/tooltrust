@@ -150,7 +150,7 @@ export class LocalToolTrustClient {
         trustSubstrate: "Ardyn Tool Trust",
         verificationUrl: "https://api.ardyn.ai",
         schemaVersion: "tooltrust.provenance.v1",
-        generatedBy: "tooltrust-sdk/0.1.0",
+        generatedBy: "tooltrust-sdk/0.1.2",
       },
       ddc: { ddcId },
     }, null, 2);
@@ -172,7 +172,7 @@ export class RelayToolTrustClient extends LocalToolTrustClient {
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${this.apiKey}`,
-        "X-ToolTrust-SDK-Version": "tooltrust-sdk/0.1.0",
+        "X-ToolTrust-SDK-Version": "tooltrust-sdk/0.1.2",
       },
       body: JSON.stringify({
         toolName: descriptor.name,
@@ -180,7 +180,7 @@ export class RelayToolTrustClient extends LocalToolTrustClient {
         authorityLevel: descriptor.authorityRequired,
         inputHash: localResult.trace.inputHash,
         agentId: this.agentId,
-        clientVersion: "tooltrust-sdk/0.1.0",
+        clientVersion: "tooltrust-sdk/0.1.2",
       }),
     });
     const auth = await authResp.json() as any;

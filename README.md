@@ -23,7 +23,7 @@ AI agents call tools — search, query, execute, transfer. Every call is a liabi
 
 ```bash
 # Python
-pip install tooltrust-sdk
+pip install tooltrust-sdk>=0.1.2
 
 # TypeScript
 npm install @ardyn/tooltrust-sdk

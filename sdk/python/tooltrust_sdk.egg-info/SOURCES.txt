@@ -1,3 +1,4 @@
+README.md
 pyproject.toml
 setup.py
 tooltrust/__init__.py
@@ -5,8 +6,15 @@ tooltrust/atp.py
 tooltrust/client.py
 tooltrust/ddc.py
 tooltrust/errors.py
+tooltrust/replay.py
 tooltrust/tool.py
 tooltrust/verifier.py
+tooltrust/adapters/__init__.py
+tooltrust/adapters/crewai.py
+tooltrust/adapters/http_adapter.py
+tooltrust/adapters/langchain.py
+tooltrust/adapters/mcp.py
+tooltrust/adapters/shell_adapter.py
 tooltrust_sdk.egg-info/PKG-INFO
 tooltrust_sdk.egg-info/SOURCES.txt
 tooltrust_sdk.egg-info/dependency_links.txt

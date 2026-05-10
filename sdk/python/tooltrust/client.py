@@ -161,7 +161,7 @@ class RelayToolTrustClient:
                 "authority_level": descriptor.authority_required.value,
                 "input_hash": input_hash,
                 "agent_id": self.agent_id,
-                "client_version": "tooltrust-sdk/0.1.0",
+                "client_version": "tooltrust-sdk/0.1.3",
             }).encode()
             req = urllib.request.Request(
                 f"{self.base_url}/v1/tools/authorize",
@@ -169,7 +169,7 @@ class RelayToolTrustClient:
                 headers={
                     "Content-Type": "application/json",
                     "Authorization": f"Bearer {self.api_key}",
-                    "X-ToolTrust-SDK-Version": "tooltrust-sdk/0.1.0",
+                    "X-ToolTrust-SDK-Version": "tooltrust-sdk/0.1.3",
                 },
                 method="POST",
             )
