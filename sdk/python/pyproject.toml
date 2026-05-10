@@ -4,8 +4,9 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "tooltrust-sdk"
-version = "0.1.0"
-description = "Tool Trust SDK — wrap AI tools with cryptographic trust certificates"
+version = "0.1.1"
+description = "Replayable autonomous tool execution — lightweight trust infrastructure SDK"
+readme = "README.md"
 license = {text = "MIT"}
 requires-python = ">=3.9"
 authors = [{name = "Ardyn Intelligence", email = "engineering@ardyn.ai"}]
