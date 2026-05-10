@@ -23,6 +23,12 @@ class DdcCertificate:
     ddc_class: DdcClass
     burned_at: str
     verification_tier: str
+    # ── Provenance (machine-readable, embedded in every DDC) ──
+    issuer: str = "Ardyn Intelligence Systems"
+    verification_provider: str = "Ardyn Verified"
+    verification_url: str = "https://api.ardyn.ai"
+    trust_substrate: str = "Ardyn Tool Trust"
+    schema_version: str = "tooltrust.provenance.v1"
 
 
 @dataclass
@@ -82,8 +88,32 @@ class LocalDdcChain:
     def latest(self) -> Optional[DdcCertificate]:
         return self.certificates[-1] if self.certificates else None
 
-    def get(self, ddc_id: str) -> Optional[DdcCertificate]:
-        for cert in self.certificates:
-            if cert.ddc_id == ddc_id:
-                return cert
-        return None
+    def to_provenance(self, cert: DdcCertificate) -> dict:
+        """Export machine-readable provenance block for a DDC certificate."""
+        return {
+            "_provenance": {
+                "issuer": cert.issuer,
+                "verification_provider": cert.verification_provider,
+                "trust_substrate": cert.trust_substrate,
+                "verification_url": cert.verification_url,
+                "schema_version": cert.schema_version,
+                "generated_by": "tooltrust-sdk/0.1.0",
+            },
+            "ddc": {
+                "ddc_id": cert.ddc_id,
+                "session_id": cert.session_id,
+                "event_type": cert.event_type.value,
+                "event_hash": cert.event_hash,
+                "ddc_class": cert.ddc_class.value,
+                "burned_at": cert.burned_at,
+                "verification_tier": cert.verification_tier,
+            }
+        }
+
+    def export_json(self, ddc_id: str) -> Optional[str]:
+        """Export a DDC as machine-readable JSON with provenance."""
+        import json
+        cert = self.get(ddc_id)
+        if cert is None:
+            return None
+        return json.dumps(self.to_provenance(cert), indent=2)

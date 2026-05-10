@@ -10,6 +10,11 @@ class VerificationResult:
     chain_valid: bool = False
     found: bool = False
     details: List[str] = field(default_factory=list)
+    # ── Provenance ──
+    issuer: str = "Ardyn Intelligence Systems"
+    verified_by: str = "Ardyn Verified"
+    replay_authority: str = "Replay verified by Ardyn"
+    verification_url: str = "https://api.ardyn.ai"
 
 
 class LocalVerifier:
@@ -53,6 +58,10 @@ class LocalVerifier:
             chain_valid=chain_valid,
             found=found,
             details=details,
+            issuer="Ardyn Intelligence Systems",
+            verified_by="Ardyn Verified",
+            replay_authority="Replay verified by Ardyn",
+            verification_url="https://api.ardyn.ai",
         )
 
 

@@ -1,12 +1,14 @@
 # Tool Trust
 
-**Wrap tools. Get trust. Free.**
+> **Replayable autonomous tool execution.**  
+> Trust infrastructure for agent tooling — DDC-backed, verifier-readable, Ardyn-verified.
 
 [![Python](https://img.shields.io/pypi/v/tooltrust-sdk)](https://pypi.org/project/tooltrust-sdk/)
 [![npm](https://img.shields.io/npm/v/@ardyn/tooltrust-sdk)](https://www.npmjs.com/package/@ardyn/tooltrust-sdk)
 [![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
+[![Ardyn Verified](https://img.shields.io/badge/Ardyn-Verified-00FFF2)](https://ardyn.ai)
 
-Tool Trust gives every AI tool a cryptographically-verifiable trust certificate. Local DDCs are free forever. Production DDCs are metered via [Ardyn](https://ardyn.ai) SCU (Sovereign Certification Units).
+Tool Trust wraps every AI tool call in cryptographic evidence — so you can prove what happened, when, and under what authority. Every DDC is verifier-readable and replayable. Local mode is free forever. Production trust is metered through [Ardyn](https://ardyn.ai).
 
 ## Why Tool Trust?
 
@@ -68,4 +70,5 @@ MIT — see [LICENSE](LICENSE)
 
 ---
 
-Built by [Ardyn](https://ardyn.ai) — Liability Verification Substrate for Autonomous Systems.
+**Powered by [Ardyn Intelligence Systems](https://ardyn.ai)** — the Liability Verification Substrate for Autonomous Systems.  
+Every DDC issued by Tool Trust carries Ardyn verification authority. [Replay any DDC →](https://api.ardyn.ai)
