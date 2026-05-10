@@ -163,30 +163,34 @@ export class RelayToolTrustClient extends LocalToolTrustClient {
   }
 
   async executeRelay(fn: (...args: any[]) => any, ...args: any[]): Promise<ToolResult> {
-    const localResult = this.execute(fn, ...args);
     const descriptor: ToolDescriptor = (fn as any)._toolDescriptor;
+    if (!descriptor) throw new Error("Function is not a @tool");
+    const inputHash = hashInput(args);
 
-    // Authorize
+    // 1. Authorize FIRST — before any tool execution
     const authResp = await fetch(`${this.baseUrl}/v1/tools/authorize`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${this.apiKey}`,
-        "X-ToolTrust-SDK-Version": "tooltrust-sdk/0.1.2",
+        "X-ToolTrust-SDK-Version": "tooltrust-sdk/0.1.3",
       },
       body: JSON.stringify({
         toolName: descriptor.name,
         riskClass: descriptor.riskClass,
         authorityLevel: descriptor.authorityRequired,
-        inputHash: localResult.trace.inputHash,
+        inputHash,
         agentId: this.agentId,
-        clientVersion: "tooltrust-sdk/0.1.2",
+        clientVersion: "tooltrust-sdk/0.1.3",
       }),
     });
     const auth = await authResp.json() as any;
     if (!auth.authorized) throw new Error(`Authorization denied: ${auth.reason}`);
 
-    // Complete
+    // 2. Execute only after authorization succeeds
+    const localResult = this.execute(fn, ...args);
+
+    // 3. Complete
     const completeResp = await fetch(`${this.baseUrl}/v1/tools/complete`, {
       method: "POST",
       headers: {
