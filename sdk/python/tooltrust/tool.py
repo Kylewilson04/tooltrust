@@ -8,13 +8,13 @@ import time
 
 class RiskClass(str, Enum):
     READ_ONLY = "read_only"
-    READ_FILTER = "read_filter"
-    READ_TRANSFORM = "read_transform"
-    GENERATE = "generate"
-    EXTERNAL_COMM = "external_comm"
+    DATA_ACCESS = "data_access"
+    CODE_EXECUTION = "code_execution"
+    EXTERNAL_COMMUNICATION = "external_communication"
     WRITE_ACTION = "write_action"
-    FINANCIAL = "financial"
-    REGULATED_DATA = "regulated_data"
+    INFRASTRUCTURE_MUTATION = "infrastructure_mutation"
+    FINANCIAL_ACTION = "financial_action"
+    REGULATED_DATA_ACTION = "regulated_data_action"
 
     @property
     def level(self) -> int:
@@ -27,13 +27,13 @@ class RiskClass(str, Enum):
 
 _RISK_LEVELS = {
     RiskClass.READ_ONLY: 1,
-    RiskClass.READ_FILTER: 2,
-    RiskClass.READ_TRANSFORM: 3,
-    RiskClass.GENERATE: 4,
-    RiskClass.EXTERNAL_COMM: 5,
-    RiskClass.WRITE_ACTION: 6,
-    RiskClass.FINANCIAL: 7,
-    RiskClass.REGULATED_DATA: 8,
+    RiskClass.DATA_ACCESS: 2,
+    RiskClass.CODE_EXECUTION: 3,
+    RiskClass.EXTERNAL_COMMUNICATION: 4,
+    RiskClass.WRITE_ACTION: 5,
+    RiskClass.INFRASTRUCTURE_MUTATION: 6,
+    RiskClass.FINANCIAL_ACTION: 7,
+    RiskClass.REGULATED_DATA_ACTION: 8,
 }
 
 

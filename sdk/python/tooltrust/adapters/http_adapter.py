@@ -3,7 +3,7 @@ HTTP Tool Adapter for Tool Trust.
 
 Usage:
     from tooltrust.adapters.http import wrap_http_tool
-    from tooltrust import LocalToolTrustClient
+    from .. import LocalToolTrustClient
 
     client = LocalToolTrustClient()
 
@@ -17,7 +17,8 @@ Usage:
 """
 
 from typing import Any, Callable, Optional
-from tooltrust import tool, LocalToolTrustClient, ToolResult
+from ..tool import tool, ToolResult
+from ..client import LocalToolTrustClient
 
 
 def wrap_http_tool(

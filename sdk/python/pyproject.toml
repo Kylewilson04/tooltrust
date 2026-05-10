@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "tooltrust-sdk"
-version = "0.1.1"
+version = "0.1.2"
 description = "Replayable autonomous tool execution — lightweight trust infrastructure SDK"
 readme = "README.md"
 license = {text = "MIT"}

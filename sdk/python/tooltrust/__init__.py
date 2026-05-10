@@ -13,8 +13,9 @@ from .errors import (
 from .ddc import DdcCertificate, DdcLedgerRecord, DdcEventType, DdcClass
 from .verifier import verify_ddc, VerificationResult
 from .atp import LocalATP, AgentTrustProfile
+from .replay import replay_ddc, ReplayResult
 
-__version__ = "0.1.0"
+__version__ = "0.1.2"
 __all__ = [
     # Decorator
     "tool",
@@ -36,6 +37,8 @@ __all__ = [
     # Utilities
     "LocalATP",
     "verify_ddc",
+    "replay_ddc",
+    "ReplayResult",
     # Errors
     "ToolTrustError",
     "AuthorizationError",

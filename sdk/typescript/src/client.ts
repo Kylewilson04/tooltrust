@@ -70,8 +70,9 @@ export class LocalToolTrustClient {
       throw new Error(`Function is not a @tool. Wrap it with @tool() first.`);
     }
 
-    if (descriptor.riskClass === RiskClass.Financial ||
-        descriptor.riskClass === RiskClass.RegulatedData) {
+    if (descriptor.riskClass === RiskClass.FinancialAction ||
+        descriptor.riskClass === RiskClass.RegulatedDataAction ||
+        descriptor.riskClass === RiskClass.InfrastructureMutation) {
       throw new Error(
         `Risk class '${descriptor.riskClass}' blocked in local mode. Use RelayToolTrustClient.`
       );

@@ -3,13 +3,13 @@
 
 export enum RiskClass {
   ReadOnly = "read_only",
-  ReadFilter = "read_filter",
-  ReadTransform = "read_transform",
-  Generate = "generate",
-  ExternalComm = "external_comm",
+  DataAccess = "data_access",
+  CodeExecution = "code_execution",
+  ExternalCommunication = "external_communication",
   WriteAction = "write_action",
-  Financial = "financial",
-  RegulatedData = "regulated_data",
+  InfrastructureMutation = "infrastructure_mutation",
+  FinancialAction = "financial_action",
+  RegulatedDataAction = "regulated_data_action",
 }
 
 export enum AuthorityLevel {
