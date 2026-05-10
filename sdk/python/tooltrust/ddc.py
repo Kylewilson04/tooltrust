@@ -88,6 +88,12 @@ class LocalDdcChain:
     def latest(self) -> Optional[DdcCertificate]:
         return self.certificates[-1] if self.certificates else None
 
+    def get(self, ddc_id: str) -> Optional[DdcCertificate]:
+        for cert in self.certificates:
+            if cert.ddc_id == ddc_id:
+                return cert
+        return None
+
     def to_provenance(self, cert: DdcCertificate) -> dict:
         """Export machine-readable provenance block for a DDC certificate."""
         return {

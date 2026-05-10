@@ -1,0 +1,19 @@
+Metadata-Version: 2.4
+Name: tooltrust-sdk
+Version: 0.1.0
+Summary: Tool Trust SDK — wrap AI tools with cryptographic trust certificates
+Author-email: Ardyn Intelligence <engineering@ardyn.ai>
+License: MIT
+Project-URL: Homepage, https://ardyn.ai
+Project-URL: Repository, https://github.com/Kylewilson04/tooltrust
+Keywords: ai,trust,verification,tools,autonomous
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Python: >=3.9
+Dynamic: requires-python
