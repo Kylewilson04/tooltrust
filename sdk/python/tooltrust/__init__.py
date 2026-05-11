@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from . import config
 from .client import LocalToolTrustClient, RelayToolTrustClient, ProductionToolTrustClient
 from .tool import tool, ToolDescriptor, RiskClass, AuthorityLevel, AdapterType
 from .errors import (
@@ -15,8 +16,9 @@ from .verifier import verify_ddc, VerificationResult
 from .atp import LocalATP, AgentTrustProfile
 from .replay import replay_ddc, ReplayResult
 
-__version__ = "0.1.3"
+__version__ = "0.1.4"
 __all__ = [
+    "config",
     # Decorator
     "tool",
     # Clients

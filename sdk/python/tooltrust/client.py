@@ -1,26 +1,33 @@
 from __future__ import annotations
 
-import time
-import uuid
 import hashlib
 import json
-from typing import Optional
+import os
+import time
+import uuid
 from dataclasses import dataclass, field
+from typing import Optional
 
-from .tool import (
-    ToolDescriptor, ToolTrace, ToolResult,
-    RiskClass, AuthorityLevel, DdcEventType, DdcClass,
-)
-from .ddc import DdcCertificate, DdcLedgerRecord, LocalDdcChain
-from .verifier import VerificationResult, LocalVerifier
+from . import config
 from .atp import LocalATP, AgentTrustProfile
+from .ddc import DdcCertificate, DdcLedgerRecord, LocalDdcChain
 from .errors import (
-    ToolTrustError,
     AuthorizationError,
-    RiskClassBlockedError,
     QuotaExceededError,
     RelayError,
+    RiskClassBlockedError,
+    ToolTrustError,
 )
+from .tool import (
+    AuthorityLevel,
+    DdcClass,
+    DdcEventType,
+    RiskClass,
+    ToolDescriptor,
+    ToolResult,
+    ToolTrace,
+)
+from .verifier import LocalVerifier, VerificationResult
 
 
 @dataclass
@@ -137,11 +144,48 @@ class RelayToolTrustClient:
     Upgrades: authorize → execute → complete → production DDC.
     """
 
-    api_key: str
+    api_key: Optional[str] = None
     base_url: str = "https://api.ardyn.ai"
     offline_grace_period_hours: int = 24
     agent_id: str = "default"
     _local_client: LocalToolTrustClient = field(default_factory=LocalToolTrustClient)
+    _registered: bool = False
+
+    def _ensure_registered(self):
+        if self._registered:
+            return
+
+        if self.api_key is None:
+            self.api_key = os.environ.get("TOOLTRUST_API_KEY")
+
+        if self.api_key is None:
+            cfg = config.get_config()
+            if cfg.get("api_key"):
+                self.api_key = cfg["api_key"]
+
+        if self.api_key is None:
+            import urllib.request
+
+            client_id = str(uuid.uuid4())
+            body = json.dumps({"client_id": client_id}).encode()
+            req = urllib.request.Request(
+                f"{self.base_url}/v1/register/tooltrust",
+                data=body,
+                headers={"Content-Type": "application/json"},
+                method="POST",
+            )
+            try:
+                resp = urllib.request.urlopen(req, timeout=10)
+                data = json.loads(resp.read())
+            except Exception as e:
+                raise RelayError(f"Auto-registration failed: {e}")
+
+            self.api_key = data["api_key"]
+            cfg = {"api_key": data["api_key"], "tenant_id": data["tenant_id"]}
+            config.save_config(cfg)
+            print(f"Tool Trust account created: {config.mask_key(data['api_key'])}")
+
+        self._registered = True
 
     def execute(self, fn, *args, **kwargs) -> ToolResult:
         """Execute with cloud relay — authorize, execute, complete."""
@@ -149,19 +193,23 @@ class RelayToolTrustClient:
         if descriptor is None:
             raise ToolTrustError(f"Function '{fn.__name__}' is not a @tool.")
 
+        self._ensure_registered()
+
         # 1. Local policy check
         input_hash = descriptor.input_hash(*args, **kwargs)
 
         # 2. Authorize via cloud (placeholder — requires HTTP client)
         try:
+            import urllib.error
             import urllib.request
+
             auth_body = json.dumps({
                 "tool_name": descriptor.name,
                 "risk_class": descriptor.risk_class.value,
                 "authority_level": descriptor.authority_required.value,
                 "input_hash": input_hash,
                 "agent_id": self.agent_id,
-                "client_version": "tooltrust-sdk/0.1.3",
+                "client_version": "tooltrust-sdk/0.1.4",
             }).encode()
             req = urllib.request.Request(
                 f"{self.base_url}/v1/tools/authorize",
@@ -169,7 +217,7 @@ class RelayToolTrustClient:
                 headers={
                     "Content-Type": "application/json",
                     "Authorization": f"Bearer {self.api_key}",
-                    "X-ToolTrust-SDK-Version": "tooltrust-sdk/0.1.3",
+                    "X-ToolTrust-SDK-Version": "tooltrust-sdk/0.1.4",
                 },
                 method="POST",
             )
@@ -193,6 +241,9 @@ class RelayToolTrustClient:
 
         # 4. Complete via cloud
         try:
+            import urllib.error
+            import urllib.request
+
             complete_body = json.dumps({
                 "call_id": call_id,
                 "output_hash": local_result.trace.output_hash,
