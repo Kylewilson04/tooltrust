@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+__version__ = "0.1.4"
+
 from . import config
 from .client import LocalToolTrustClient, RelayToolTrustClient, ProductionToolTrustClient
 from .tool import tool, ToolDescriptor, RiskClass, AuthorityLevel, AdapterType
@@ -22,8 +24,6 @@ from .adapters.mcp import (
     wrap_mcp_tool,
     wrap_mcp_tools_bulk,
 )
-
-__version__ = "0.1.4"
 
 
 def _offer_onboarding():
