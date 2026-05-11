@@ -23,8 +23,10 @@ def clear_config():
         CONFIG_FILE.unlink()
 
 
-def mask_key(key: str) -> str:
+def mask_key(key: str | None) -> str:
     """Show only first 4 + last 4 chars. Never print full key."""
+    if key is None:
+        return "****"
     if len(key) <= 8:
         return "****"
     return f"{key[:4]}...{key[-4:]}"

@@ -283,9 +283,35 @@ class RelayToolTrustClient:
 class ProductionToolTrustClient(RelayToolTrustClient):
     """Enterprise production client with full trust stack.
 
+    Requires explicit API key or TOOLTRUST_API_KEY env var.
+    Does NOT auto-register. Use RelayToolTrustClient for free auto-registration.
+
     Adds: Bitcoin anchoring, CertificationGate, sovereign evidence.
     """
 
     enable_bitcoin_anchor: bool = False
     enable_certification_gate: bool = False
     enable_sovereign_evidence: bool = False
+
+    def __post_init__(self):
+        # Production mode always requires an explicit key
+        if self.api_key is None:
+            self.api_key = os.environ.get("TOOLTRUST_API_KEY")
+        if self.api_key is None:
+            cfg = config.get_config()
+            if cfg.get("api_key"):
+                self.api_key = cfg["api_key"]
+        if self.api_key is None:
+            raise ValueError(
+                "ProductionToolTrustClient requires an API key. "
+                "Set TOOLTRUST_API_KEY or pass api_key= to constructor. "
+                "Use RelayToolTrustClient() for free-tier auto-registration."
+            )
+
+    def _ensure_registered(self):
+        # Override: production mode does NOT auto-register
+        if self._registered:
+            return
+        if self.api_key is None:
+            raise RelayError("ProductionToolTrustClient requires an API key for cloud operations")
+        self._registered = True
