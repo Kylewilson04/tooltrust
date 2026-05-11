@@ -187,6 +187,12 @@ class RelayToolTrustClient:
 
         self._registered = True
 
+    def _get_tenant_id(self) -> str:
+        """Get tenant_id from stored config."""
+        self._ensure_registered()
+        cfg = config.get_config()
+        return cfg.get("tenant_id", self.agent_id)
+
     def execute(self, fn, *args, **kwargs) -> ToolResult:
         """Execute with cloud relay — authorize, execute, complete."""
         descriptor: ToolDescriptor = getattr(fn, "_tool_descriptor", None)
@@ -198,18 +204,19 @@ class RelayToolTrustClient:
         # 1. Local policy check
         input_hash = descriptor.input_hash(*args, **kwargs)
 
-        # 2. Authorize via cloud (placeholder — requires HTTP client)
+        # 2. Authorize via cloud
         try:
             import urllib.error
             import urllib.request
 
             auth_body = json.dumps({
-                "tool_name": descriptor.name,
-                "risk_class": descriptor.risk_class.value,
-                "authority_level": descriptor.authority_required.value,
-                "input_hash": input_hash,
                 "agent_id": self.agent_id,
-                "client_version": "tooltrust-sdk/0.1.4",
+                "tenant_id": self._get_tenant_id(),
+                "tool_name": descriptor.name,
+                "tool_type": descriptor.adapter.value,
+                "requested_action": f"{descriptor.name}(*args, **kwargs)",
+                "input_hash": input_hash,
+                "execution_target": "tooltrust-sdk/0.1.4",
             }).encode()
             req = urllib.request.Request(
                 f"{self.base_url}/v1/tools/authorize",
@@ -245,17 +252,9 @@ class RelayToolTrustClient:
             import urllib.request
 
             complete_body = json.dumps({
-                "call_id": call_id,
+                "tool_call_id": call_id,
                 "output_hash": local_result.trace.output_hash,
-                "traces": [{
-                    "tool_name": local_result.trace.tool_name,
-                    "risk_class": local_result.trace.risk_class.value,
-                    "input_hash": local_result.trace.input_hash,
-                    "output_hash": local_result.trace.output_hash,
-                    "duration_ms": local_result.trace.duration_ms,
-                    "success": local_result.trace.success,
-                }],
-                "duration_ms": local_result.trace.duration_ms,
+                "evidence_tier": "software",
             }).encode()
             req = urllib.request.Request(
                 f"{self.base_url}/v1/tools/complete",
