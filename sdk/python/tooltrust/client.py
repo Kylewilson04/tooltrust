@@ -181,7 +181,7 @@ class RelayToolTrustClient:
                 raise RelayError(f"Auto-registration failed: {e}")
 
             self.api_key = data["api_key"]
-            cfg = {"api_key": data["api_key"], "tenant_id": data["tenant_id"]}
+            cfg = {"api_key": data["api_key"], "tenant_id": data["tenant_id"], "agent_id": str(uuid.uuid4())}
             config.save_config(cfg)
             print(f"Tool Trust account created: {config.mask_key(data['api_key'])}")
 
