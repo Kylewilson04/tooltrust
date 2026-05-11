@@ -193,6 +193,16 @@ class RelayToolTrustClient:
         cfg = config.get_config()
         return cfg.get("tenant_id", self.agent_id)
 
+    def _get_agent_id(self) -> str:
+        """Get a valid UUID agent_id. Generates and persists one if needed."""
+        cfg = config.get_config()
+        if cfg.get("agent_id"):
+            return cfg["agent_id"]
+        agent_id = str(uuid.uuid4())
+        cfg["agent_id"] = agent_id
+        config.save_config(cfg)
+        return agent_id
+
     def execute(self, fn, *args, **kwargs) -> ToolResult:
         """Execute with cloud relay — authorize, execute, complete."""
         descriptor: ToolDescriptor = getattr(fn, "_tool_descriptor", None)
@@ -210,7 +220,7 @@ class RelayToolTrustClient:
             import urllib.request
 
             auth_body = json.dumps({
-                "agent_id": self.agent_id,
+                "agent_id": self._get_agent_id(),
                 "tenant_id": self._get_tenant_id(),
                 "tool_name": descriptor.name,
                 "tool_type": descriptor.adapter.value,
