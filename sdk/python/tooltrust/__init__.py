@@ -15,6 +15,13 @@ from .ddc import DdcCertificate, DdcLedgerRecord, DdcEventType, DdcClass
 from .verifier import verify_ddc, VerificationResult
 from .atp import LocalATP, AgentTrustProfile
 from .replay import replay_ddc, ReplayResult
+from .adapters.mcp import (
+    auto_wrap_mcp_server,
+    discover_mcp_tools,
+    infer_risk_class,
+    wrap_mcp_tool,
+    wrap_mcp_tools_bulk,
+)
 
 __version__ = "0.1.4"
 
@@ -95,6 +102,12 @@ __all__ = [
     "verify_ddc",
     "replay_ddc",
     "ReplayResult",
+    # MCP auto-discovery
+    "auto_wrap_mcp_server",
+    "discover_mcp_tools",
+    "infer_risk_class",
+    "wrap_mcp_tool",
+    "wrap_mcp_tools_bulk",
     # Errors
     "ToolTrustError",
     "AuthorizationError",
