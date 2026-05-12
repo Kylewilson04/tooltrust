@@ -28,3 +28,6 @@ relay = ["requests>=2.28"]
 [project.urls]
 Homepage = "https://ardyn.ai"
 Repository = "https://github.com/Kylewilson04/tooltrust"
+
+[project.scripts]
+tooltrust = "tooltrust.cli:main"

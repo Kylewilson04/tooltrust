@@ -3,6 +3,7 @@ pyproject.toml
 setup.py
 tooltrust/__init__.py
 tooltrust/atp.py
+tooltrust/cli.py
 tooltrust/client.py
 tooltrust/config.py
 tooltrust/ddc.py
@@ -19,5 +20,6 @@ tooltrust/adapters/shell_adapter.py
 tooltrust_sdk.egg-info/PKG-INFO
 tooltrust_sdk.egg-info/SOURCES.txt
 tooltrust_sdk.egg-info/dependency_links.txt
+tooltrust_sdk.egg-info/entry_points.txt
 tooltrust_sdk.egg-info/requires.txt
 tooltrust_sdk.egg-info/top_level.txt
